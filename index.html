@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Не бойтесь летать!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle, #ECF6FF 0%, #C0E1FF 100%);
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        #illustration {
+            width: 256px;
+            height: 256px;
+            background: white no-repeat center center;
+            background-size: contain;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        #comparison {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        #comparison span {
+            color: red;
+            font-weight: bold;
+        }
+        #stats {
+            font-size: 1em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        button {
+            background-color: #FFC107;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        button:hover {
+            background-color: #FFB300;
+            transform: scale(1.05);
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            #comparison {
+                font-size: 1.2em;
+                padding: 0 10px;
+            }
+            #illustration {
+                width: 200px;
+                height: 200px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Не бойтесь летать!</h1>
+    <div id="illustration"></div>
+    <div id="comparison"></div>
+    <div id="stats"></div>
+    <button id="showMoreBtn" onclick="showRandomComparison()">Показать еще</button>
+
+    <script>
+        const comparisons = [
+            {
+                text: "Шанс погибнуть в автомобильной аварии <span>в 2200 раз выше</span>, чем на самолете",
+                image: "illustrations/car-accident.png",
+                stats: "Каждый год в автомобильных авариях гибнет около 1.35 миллиона человек.",
+                source: "https://www.who.int/news-room/fact-sheets/detail/road-traffic-injuries"
+            },
+            {
+                text: "Шанс погибнуть в аварии на велосипеде <span>в 78 раз выше</span>, чем на самолете",
+                image: "illustrations/bike-accident.png",
+                stats: "Каждый год в велосипедных авариях гибнет около 2 тысячи человек.",
+                source: "https://www.cdc.gov/motorvehiclesafety/bicycle/index.html"
+            },
+            {
+                text: "Шанс погибнуть при прогулке <span>в 15 раз выше</span>, чем на самолете",
+                image: "illustrations/walking-accident.png",
+                stats: "Каждый год при прогулках гибнет около 270 тысяч человек.",
+                source: "https://www.who.int/news-room/fact-sheets/detail/road-traffic-injuries"
+            },
+            {
+                text: "Шанс погибнуть от удара молнии <span>в 13 раз выше</span>, чем на самолете",
+                image: "illustrations/lightning.png",
+                stats: "Каждый год от удара молнии гибнет около 24000 человек.",
+                source: "https://www.weather.gov/safety/lightning-odds"
+            },
+            {
+                text: "Шанс погибнуть при плавании <span>в 19 раз выше</span>, чем на самолете",
+                image: "illustrations/swimming.png",
+                stats: "Каждый год от утопления гибнет около 236000 человек.",
+                source: "https://www.who.int/news-room/fact-sheets/detail/drowning"
+            },
+            {
+                text: "Шанс погибнуть от укуса змеи <span>в 9 раз выше</span>, чем на самолете",
+                image: "illustrations/snake.png",
+                stats: "Каждый год от укусов змей погибает около 81000-138000 человек.",
+                source: "https://www.who.int/news-room/fact-sheets/detail/snakebite-envenoming"
+            },
+            {
+                text: "Шанс погибнуть при пожаре <span>в 23 раз выше</span>, чем на самолете",
+                image: "illustrations/fire.png",
+                stats: "Каждый год от пожаров погибает около 180000 человек.",
+                source: "https://www.who.int/news-room/fact-sheets/detail/burns"
+            },
+            {
+                text: "Шанс погибнуть от падения с лестницы <span>в 12 раз выше</span>, чем на самолете",
+                image: "illustrations/stairs.png",
+                stats: "Каждый год от падений погибает около 646000 человек.",
+                source: "https://www.who.int/news-room/fact-sheets/detail/falls"
+            },
+            {
+                text: "Шанс погибнуть от случайного утопления <span>в 16 раз выше</span>, чем на самолете",
+                image: "illustrations/drowning.png",
+                stats: "Каждый год от утопления погибает около 236000 человек.",
+                source: "https://www.who.int/news-room/fact-sheets/detail/drowning"
+            },
+            {
+                text: "Шанс погибнуть при катании на мотоцикле <span>в 104 раз выше</span>, чем на самолете",
+                image: "illustrations/motorcycle.png",
+                stats: "Каждый год при катании на мотоцикле гибнет около 285000 человек.",
+                source: "https://www.who.int/news-room/fact-sheets/detail/road-traffic-injuries"
+            }
+        ];
+
+        let shownComparisons = [];
+
+        function showRandomComparison() {
+            if (shownComparisons.length === comparisons.length) {
+                document.getElementById('comparison').innerHTML = "Все примеры закончились.";
+                document.getElementById('stats').innerHTML = "";
+                document.getElementById('showMoreBtn').innerHTML = "Начать заново";
+                document.getElementById('showMoreBtn').onclick = resetComparisons;
+                return;
+            }
+
+            let remainingComparisons = comparisons.filter(comp => !shownComparisons.includes(comp));
+            let randomComparison = remainingComparisons[Math.floor(Math.random() * remainingComparisons.length)];
+
+            shownComparisons.push(randomComparison);
+            document.getElementById('comparison').innerHTML = randomComparison.text;
+            document.getElementById('illustration').style.backgroundImage = `url(${randomComparison.image})`;
+            document.getElementById('stats').innerHTML = `
+                ${randomComparison.stats} 
+                <a href="${randomComparison.source}" target="_blank">Источник</a>
+            `;
+        }
+
+        function resetComparisons() {
+            shownComparisons = [];
+            showRandomComparison();
+            document.getElementById('showMoreBtn').innerHTML = "Показать еще";
+            document.getElementById('showMoreBtn').onclick = showRandomComparison;
+        }
+
+        // Show a random comparison on page load
+        window.onload = showRandomComparison;
+    </script>
+</body>
+</html>
